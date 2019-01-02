@@ -48,6 +48,12 @@
 			"revision": "7fcbc72f853b92b5720db4a6b8482be612daef24"
 		},
 		{
+			"checksumSHA1": "E8lkoofu0LLpSgqv0hqZL6V0dzE=",
+			"path": "github.com/russross/blackfriday",
+			"revision": "abafa45cd843f4f4935c29a2e8f3d73a01820fc3",
+			"revisionTime": "2018-11-15T20:38:43Z"
+		},
+		{
 			"checksumSHA1": "hKZGpbFuCrkE4s1vxubKK1aFlfI=",
 			"path": "golang.org/x/net/context",
 			"revision": "d9558e5c97f85372afee28cf2b6059d7d3818919"
@@ -59,5 +65,5 @@
 			"revision": "d627af88ac021317a280d320986282a6dc97549a"
 		}
 	],
-	"rootPath": "github.com/heroku/go-getting-started"
+	"rootPath": "Lab1"
 }
