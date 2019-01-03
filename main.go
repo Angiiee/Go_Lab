@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"github.com/gin-gonic/gin"
 	//"github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -9,6 +10,18 @@ import (
 	"net/http"
 	"os"
 )
+
+var (
+	repeat int
+)
+
+func repeatHandler(c *gin.Context) {
+	var buffer bytes.Buffer
+	for i := 0; i < repeat; i++ {
+		buffer.WriteString("Hello from Go!\n")
+	}
+	c.String(http.StatusOK, buffer.String())
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -45,6 +58,8 @@ func main() {
 	router.GET("/mark", func(c *gin.Context) {
 		c.String(http.StatusOK, string(blackfriday.MarkdownBasic([]byte("**hi!**"))))
 	})
+
+	router.GET("/repeat", repeatHandler)
 
 	router.Run(":" + port)
 }
