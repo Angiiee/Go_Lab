@@ -8,7 +8,15 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
+
+type Note struct {
+	Id    int
+	Title string
+	Text  string
+	Date  time.Time
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -51,6 +59,11 @@ func main() {
 		log.Print("In POST title = " + title)
 		log.Print("In POST description = " + description)
 		log.Print("In POST date = " + date)
+		insForm, err := db.Prepare("INSERT INTO note_info (title, text, date) VALUES(?, ?,?)")
+		if err != nil {
+			panic(err.Error())
+		}
+		insForm.Exec(title, description, date)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
