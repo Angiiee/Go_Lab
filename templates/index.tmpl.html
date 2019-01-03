@@ -20,15 +20,17 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <h3><span class="glyphicon glyphicon-plus"></span>Add new Note</h3>
+            <h3><span class="glyphicon glyphicon-plus"></span> Add new Note</h3>
             <form method="POST">
-                <label>Title:</label><br/>
-                <input type="text" name="title" maxlength="80"><br/>
-                <label>Description:</label><br/>
-                <input type="text" name="description" maxlength="255"><br/>
-                <label>Date:</label><br/>
-                <input type="date" name="date"><br/>
-                <input type="submit">
+                <div class="input-group mb-3">
+                    <label>Title:</label><br/>
+                    <input type="text" name="title" maxlength="80"><br/>
+                    <label>Description:</label><br/>
+                    <input type="text" name="description" maxlength="255"><br/>
+                    <label>Date:</label><br/>
+                    <input type="date" name="date"><br/><br/>
+                    <button class="btn btn-outline-secondary" type="button">Save</button>
+                </div>
             </form>
         </div>
         <div class="col-md-6">
