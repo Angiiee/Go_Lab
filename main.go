@@ -23,7 +23,7 @@ func dbConn() (db *sql.DB) {
 	dbUser := "root"
 	dbPass := "password"
 	dbName := "notesdb"
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@tcp(docker.for.win.localhost:3306)/"+dbName)
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -72,7 +72,7 @@ func main() {
 		}
 		insForm.Exec(title, description, date)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
-		defer db.Close()
+		//defer db.Close()
 	})
 
 	router.Run(":" + port)
