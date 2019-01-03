@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
-	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
