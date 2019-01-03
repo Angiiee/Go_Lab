@@ -23,7 +23,7 @@ func dbConn() (db *sql.DB) {
 	dbUser := "root"
 	dbPass := "password"
 	dbName := "notesdb"
-	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@tcp(docker.for.win.localhost)/"+dbName)
 	if err != nil {
 		panic(err.Error())
 	}
