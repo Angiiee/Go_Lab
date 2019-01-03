@@ -13,7 +13,9 @@ import (
 
 func processNote(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //get request method
+	log.Print("In processNote")
 	if r.Method == "POST" {
+		log.Print("In processNote POST")
 		r.ParseForm()
 		// logic part of log in
 		title := r.FormValue("title")
