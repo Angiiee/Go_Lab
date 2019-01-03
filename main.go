@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
@@ -43,8 +44,8 @@ func main() {
 	//fmt.Println(result.RowsAffected()) // количество затронутых строк
 
 	if port == "" {
-		log.Fatal("$PORT must be set")
-		//port = "8080"
+		//log.Fatal("$PORT must be set")
+		port = "8080"
 	}
 
 	router := gin.New()
@@ -69,6 +70,7 @@ func main() {
 		insForm, err := db.Prepare("INSERT INTO note_info (title, text, date) VALUES(?, ?,?)")
 		if err != nil {
 			panic(err.Error())
+			log.Print("In panic" + err.Error())
 		}
 		insForm.Exec(title, description, date)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
