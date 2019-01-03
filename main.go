@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -19,6 +20,8 @@ func processNote(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("title:", r.Form["title"])
 		fmt.Println("description:", r.Form["description"])
 		fmt.Println("date:", r.Form["date"])
+		t, _ := template.ParseFiles("index.tmpl.html")
+		t.Execute(w, nil)
 	}
 }
 
