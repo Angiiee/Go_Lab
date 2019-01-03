@@ -6,27 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
-	"github.com/russross/blackfriday"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
 )
 
-var (
-	repeat int
-)
-
-func login(w http.ResponseWriter, r *http.Request) {
+func processNote(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //get request method
-	if r.Method == "GET" {
-		t, _ := template.ParseFiles("login.gtpl")
-		t.Execute(w, nil)
-	} else {
+	if r.Method == "POST" {
 		r.ParseForm()
 		// logic part of log in
-		fmt.Println("username:", r.Form["username"])
-		fmt.Println("password:", r.Form["password"])
+		fmt.Println("title:", r.Form["title"])
+		fmt.Println("description:", r.Form["description"])
+		fmt.Println("date:", r.Form["date"])
 	}
 }
 
@@ -58,12 +50,10 @@ func main() {
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
 
+	http.HandleFunc("/note", processNote)
+
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
-	})
-
-	router.GET("/mark", func(c *gin.Context) {
-		c.String(http.StatusOK, string(blackfriday.MarkdownBasic([]byte("**hi!**"))))
 	})
 
 	router.Run(":" + port)
