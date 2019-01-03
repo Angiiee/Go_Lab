@@ -65,6 +65,8 @@ func main() {
 
 	router.POST("/", func(c *gin.Context) {
 		log.Print("In POST")
+		title := c.PostForm("title")
+		log.Print("In POST title = " + title)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
