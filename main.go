@@ -18,15 +18,21 @@ type Note struct {
 	Date  time.Time
 }
 
+func dbConn() (db *sql.DB) {
+	dbDriver := "mysql"
+	dbUser := "root"
+	dbPass := "password"
+	dbName := "notesdb"
+	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
+}
+
 func main() {
 	port := os.Getenv("PORT")
-
-	db, err := sql.Open("mysql", "root:password@/notesdb")
-
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+	//defer db.Close()
 
 	//result, err := db.Exec("insert into notesdb.user_info (userName, description) values (?, ?)",
 	//	"Hello", "Hello World!")
@@ -53,6 +59,7 @@ func main() {
 
 	router.POST("/note", func(c *gin.Context) {
 		log.Print("In POST")
+		db := dbConn()
 		title := c.PostForm("title")
 		description := c.PostForm("description")
 		date := c.PostForm("date")
@@ -65,6 +72,7 @@ func main() {
 		}
 		insForm.Exec(title, description, date)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+		defer db.Close()
 	})
 
 	router.Run(":" + port)
