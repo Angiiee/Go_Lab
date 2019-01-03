@@ -1,12 +1,13 @@
 package main
 
 import (
-	"bytes"
 	"database/sql"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
 	"github.com/russross/blackfriday"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -16,12 +17,17 @@ var (
 	repeat int
 )
 
-func repeatHandler(c *gin.Context) {
-	var buffer bytes.Buffer
-	for i := 0; i < repeat; i++ {
-		buffer.WriteString("Hello from Go!\n")
+func login(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("method:", r.Method) //get request method
+	if r.Method == "GET" {
+		t, _ := template.ParseFiles("login.gtpl")
+		t.Execute(w, nil)
+	} else {
+		r.ParseForm()
+		// logic part of log in
+		fmt.Println("username:", r.Form["username"])
+		fmt.Println("password:", r.Form["password"])
 	}
-	c.String(http.StatusOK, buffer.String())
 }
 
 func main() {
@@ -59,8 +65,6 @@ func main() {
 	router.GET("/mark", func(c *gin.Context) {
 		c.String(http.StatusOK, string(blackfriday.MarkdownBasic([]byte("**hi!**"))))
 	})
-
-	router.GET("/repeat", repeatHandler)
 
 	router.Run(":" + port)
 }
