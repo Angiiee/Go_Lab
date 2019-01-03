@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -10,23 +9,6 @@ import (
 	"net/http"
 	"os"
 )
-
-func processNote(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("method:", r.Method) //get request method
-	log.Print("In processNote")
-	if r.Method == "POST" {
-		log.Print("In processNote POST")
-		r.ParseForm()
-		// logic part of log in
-		title := r.FormValue("title")
-		description := r.FormValue("description")
-		date := r.FormValue("date")
-		fmt.Fprintf(w, "title = %s\n", title)
-		fmt.Fprintf(w, "description = %s\n", description)
-		fmt.Fprintf(w, "date = %s\n", date)
-		http.ServeFile(w, r, "index.tmpl.html")
-	}
-}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -56,17 +38,19 @@ func main() {
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
 
-	http.HandleFunc("/", processNote)
-
 	router.GET("/", func(c *gin.Context) {
 		log.Print("In GET")
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
-	router.POST("/", func(c *gin.Context) {
+	router.POST("/note", func(c *gin.Context) {
 		log.Print("In POST")
 		title := c.PostForm("title")
+		description := c.PostForm("description")
+		date := c.PostForm("date")
 		log.Print("In POST title = " + title)
+		log.Print("In POST description = " + description)
+		log.Print("In POST date = " + date)
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
