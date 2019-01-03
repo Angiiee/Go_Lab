@@ -57,6 +57,12 @@ func main() {
 	http.HandleFunc("/", processNote)
 
 	router.GET("/", func(c *gin.Context) {
+		log.Print("In GET")
+		c.HTML(http.StatusOK, "index.tmpl.html", nil)
+	})
+
+	router.POST("/", func(c *gin.Context) {
+		log.Print("In POST")
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
