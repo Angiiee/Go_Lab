@@ -46,14 +46,6 @@ func main() {
 		//log.Fatal("$PORT must be set")
 		port = "8080"
 	}
-	db := dbConn()
-	insForm, err := db.Prepare("INSERT INTO note_info (title, text, date) VALUES(?, ?,?)")
-	if err != nil {
-		panic(err.Error())
-		log.Print("In panic1" + err.Error())
-	}
-	insForm.Exec("Test", "Test", "20-02-2019")
-	defer db.Close()
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*.tmpl.html")
