@@ -16,9 +16,12 @@ func processNote(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		r.ParseForm()
 		// logic part of log in
-		fmt.Fprintf(w, "title:", r.Form["title"])
-		fmt.Fprintf(w, "description:", r.Form["description"])
-		fmt.Println("date:", r.Form["date"])
+		title := r.FormValue("title")
+		description := r.FormValue("description")
+		date := r.FormValue("date")
+		fmt.Fprintf(w, "title = %s\n", title)
+		fmt.Fprintf(w, "description = %s\n", description)
+		fmt.Fprintf(w, "date = %s\n", date)
 		http.ServeFile(w, r, "index.tmpl.html")
 	}
 }
