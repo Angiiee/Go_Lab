@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -35,13 +34,13 @@ func main() {
 	}
 	defer db.Close()
 
-	result, err := db.Exec("insert into notesdb.user_info (userName, description) values (?, ?)",
-		"Hello", "Hello World!")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(result.LastInsertId()) // id добавленного объекта
-	fmt.Println(result.RowsAffected()) // количество затронутых строк
+	//result, err := db.Exec("insert into notesdb.user_info (userName, description) values (?, ?)",
+	//	"Hello", "Hello World!")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//fmt.Println(result.LastInsertId()) // id добавленного объекта
+	//fmt.Println(result.RowsAffected()) // количество затронутых строк
 
 	if port == "" {
 		log.Fatal("$PORT must be set")
