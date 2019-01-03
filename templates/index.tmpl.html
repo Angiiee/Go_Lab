@@ -1,6 +1,25 @@
 <html>
 {{template "header.tmpl.html"}}
 <body>
+<script>
+    function moveParams(id, title, text, date) {
+        var idvar = document.getElementById("idUpdate");
+        idvar.value = id;
+        var titleUpdate = document.getElementById("titleUpdate");
+        titleUpdate.setAttribute("value", title);
+        var descriptionUpdate = document.getElementById("descriptionUpdate");
+        descriptionUpdate.value = text;
+        var dateUpdate = document.getElementById("dateUpdate");
+        var datetime = Date.parse(date); // anything
+        var date1 = new Date(datetime);
+        var options = {
+            year: 'string', month: 'string', day: 'string',
+        };
+        var fullmm = (date1.getMonth()+1).toString().length == 1 ? "0" + (date1.getMonth()+1): date1.getMonth()+1;
+        var fulldd = date1.getDate().toString().length == 1 ? "0" + date1.getDate(): date1.getDate();
+        dateUpdate.value =  date1.getFullYear() + "-" + fullmm + "-" + fulldd;
+    }
+</script>
 {{template "nav.tmpl.html"}}
 
 <div class="jumbotron text-center">
@@ -12,16 +31,10 @@
     </div>
 </div>
 <div class="container">
-    <div class="alert alert-info text-center" role="alert">
-        To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a
-                href="https://devcenter.heroku.com/articles/getting-started-with-go" class="alert-link">Getting Started
-            with Go on Heroku</a> tutorial.
-    </div>
-    <hr>
     <div class="row">
         <div class="col-md-6">
             <h3><span class="glyphicon glyphicon-plus"></span> Add new Note</h3>
-            <form action="/note" method="POST">
+            <form action="/" method="POST">
                 <div class="input-group form-row col-md-12">
                     <div class="form-group">
                         <label for="titleInput">Title:</label><br/>
@@ -29,47 +42,74 @@
                     </div>
                     <div class="form-group">
                         <label for="descriptionInput">Description:</label><br/>
-                        <textarea class="form-control" id="descriptionInput" aria-label="" style="resize: vertical" name="description" maxlength="255"></textarea><br/>
+                        <textarea class="form-control" id="descriptionInput" aria-label="" style="resize: vertical"
+                                  name="description" maxlength="255"></textarea><br/>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="dateInput">Date:</label><br/>
                         <input class="form-control" id="dateInput" type="date" name="date"><br/><br/>
                     </div>
                     <div class="form-group col-md-12">
-                        <input class="btn btn-outline-secondary" type="submit">
+                        <input class="btn btn-outline-secondary" type="submit" value="Add">
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-6">
-            <h3><span class="glyphicon glyphicon-link"></span> This week Notes:</h3>
-            <ul>
-                <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-go">Getting
-                        Started</a> guide, then please head back to the tutorial and follow the next steps!
-                </li>
-                <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-                <ul>
-                    <li><code>go get github.com/heroku/go-getting-started</code> - this will create a local copy of the
-                        source code for the app, compile and install the generated executables in
-                        <code>$GOPATH/bin</code></li>
-                    <li><code>cd $GOPATH/src/github.com/heroku/go-getting-started</code> - change directory into the
-                        local source code repository
-                    </li>
-                    <li><code>heroku git:remote -a &lt;your-app-name&gt;</code> - associate the Heroku app with the
-                        repository
-                    </li>
-                    <li>You'll now be set up to run the app locally, or <a
-                                href="https://devcenter.heroku.com/articles/getting-started-with-go#push-local-changes">deploy
-                            changes</a> to Heroku
-                    </li>
-                </ul>
-            </ul>
+            <h3><span class="glyphicon glyphicon-pencil"></span> Update Note</h3>
+            <form action="/update" method="POST">
+                <div class="input-group form-row col-md-12">
+                    <input style="display: none" name="idUpdate" id="idUpdate">
+                    <div class="form-group">
+                        <label for="titleUpdate">Title:</label><br/>
+                        <input class="form-control" id="titleUpdate" type="text" name="titleUpdate" maxlength="80"><br/>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionUpdate">Description:</label><br/>
+                        <textarea class="form-control" id="descriptionUpdate" aria-label="" style="resize: vertical"
+                                  name="descriptionUpdate" maxlength="255"></textarea><br/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="dateUpdate">Date:</label><br/>
+                        <input class="form-control" id="dateUpdate" type="date" name="dateUpdate"><br/><br/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input class="btn btn-outline-secondary" type="submit" value="Update">
+                    </div>
+                </div>
+            </form>
         </div>
-    </div> <!-- row -->
-    <div class="alert alert-info text-center" role="alert">
-        Please do work through the Getting Started guide, even if you do know how to build such an application. The
-        guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order
-        to build and deploy your own apps.
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3><span class="glyphicon glyphicon-link"></span> Notes:</h3>
+            <form action="/" method="GET">
+                <input class="btn btn-outline-secondary" type="submit" value="Refresh">
+            </form>
+            <table class="table">
+                <thead>
+                <th scope="col">Title</th>
+                <th scope="col">Text</th>
+                <th scope="col">Date</th>
+                </thead>
+                {{range . }}
+                    <tr>
+                        <td>{{.Title}}</td>
+                        <td>{{.Text}}</td>
+                        <td>{{.DateString}}</td>
+                        <td>
+                            <form action="/delete" method="POST">
+                                <input style="display: none" name="id" value="{{.Id}}">
+                                <input class="btn btn-outline-secondary" type="submit" value="Remove">
+                            </form>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-outline-secondary" value="Update" onclick="moveParams({{.Id}}, {{.Title}}, {{.Text}}, {{.DateString}})">
+                        </td>
+                    </tr>
+                {{end}}
+            </table>
+        </div>
     </div>
 </div>
 
