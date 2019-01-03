@@ -46,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.tmpl.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="30" column="61" lean-forward="true" selection-start-line="30" selection-start-column="61" selection-end-line="30" selection-end-column="61" />
+            <state relative-caret-position="277">
+              <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -249,7 +249,9 @@
     <MESSAGE value="change v3.2" />
     <MESSAGE value="change v3.3" />
     <MESSAGE value="change v3.4" />
-    <option name="LAST_COMMIT_MESSAGE" value="change v3.4" />
+    <MESSAGE value="change v3.5" />
+    <MESSAGE value="change v3.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="change v3.6" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/run/Main.go">
@@ -347,8 +349,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.tmpl.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="30" column="61" lean-forward="true" selection-start-line="30" selection-start-column="61" selection-end-line="30" selection-end-column="61" />
+        <state relative-caret-position="277">
+          <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
         </state>
       </provider>
     </entry>
