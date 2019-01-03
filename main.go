@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/heroku/x/hmetrics/onload"
-	"html"
 	"html/template"
 	"log"
 	"net/http"
@@ -18,8 +17,8 @@ func processNote(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		r.ParseForm()
 		// logic part of log in
-		fmt.Println("title:", r.Form["title"])
-		fmt.Println("description:", r.Form["description"])
+		fmt.Fprintf(w, "title:", r.Form["title"])
+		fmt.Fprintf(w, "description:", r.Form["description"])
 		fmt.Println("date:", r.Form["date"])
 		t, _ := template.ParseFiles("index.tmpl.html")
 		t.Execute(w, nil)
@@ -54,9 +53,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
 
-	http.HandleFunc("/note", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-	})
+	http.HandleFunc("/note", processNote)
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
